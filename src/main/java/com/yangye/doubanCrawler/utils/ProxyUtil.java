@@ -1,4 +1,4 @@
-package com.yangye.crawler.utils;
+package com.yangye.doubanCrawler.utils;
 
 import java.net.Authenticator;
 import java.net.InetSocketAddress;

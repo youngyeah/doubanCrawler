@@ -1,8 +1,9 @@
-package com.yangye.crawler.model;
+package com.yangye.doubanCrawler.model;
 
 import java.util.List;
 
 public class DoubanMovie {
+	private int movieId;// 主键
 	private String movieName;// 电影名称
 	private int year;// 电影年份
 	private int onTime;// 上映时间
@@ -24,6 +25,14 @@ public class DoubanMovie {
 	private double threeStar;// 3星比例
 	private double fourStar;// 4星比例
 	private double fiveStar;// 5星比例
+
+	public int getMovieId() {
+		return movieId;
+	}
+
+	public void setMovieId(int movieId) {
+		this.movieId = movieId;
+	}
 
 	public String getMovieName() {
 		return movieName;

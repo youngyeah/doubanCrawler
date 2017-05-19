@@ -1,4 +1,4 @@
-package com.yangye.crawler.model;
+package com.yangye.doubanCrawler.model;
 
 public class DoubanComment {
 	private int commentId;// 主键
@@ -36,6 +36,12 @@ public class DoubanComment {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	@Override
+	public String toString() {
+		return "DoubanComment [commentId=" + commentId + ", movieId=" + movieId + ", vote=" + vote + ", content="
+				+ content + "]";
 	}
 
 }

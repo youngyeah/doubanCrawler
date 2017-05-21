@@ -220,11 +220,17 @@ public class HtmlUtil {
 		return getInt(element.text());
 	}
 	
+	/**
+	 * 获取电影短评
+	 * @param page
+	 * @param movieId
+	 * @return
+	 */
 	public static List<DoubanComment> getComments(Page page, int movieId) {
 		List<DoubanComment> comments = new ArrayList<DoubanComment>();
 		Elements elements = page.select("#hot-comments .comment-item");
 		for (Element element : elements) {
-			if(comments.size() > 3){
+			if(comments.size() > 2){
 				break;
 			}
 			DoubanComment comment = new DoubanComment();
@@ -238,6 +244,29 @@ public class HtmlUtil {
 			comments.add(comment);
 		}
 		return comments;
+	}
+	
+	/**
+	 * 获取影评数量
+	 * @param page
+	 * @return
+	 */
+	public static int getLongCommentNum(Page page) {
+		Element element = page.select(".movie-content header h2 span a", 0);
+		int longCommentNum = getInt(element.text());
+		return longCommentNum;
+	}
+	
+	/**
+	 * 获取等级评分
+	 * @param page
+	 * @param star
+	 * @return
+	 */
+	public static double getStar(Page page,int star) {
+		Elements elements = page.select(".ratings-on-weight .item .rating_per");
+		double result = Double.valueOf(elements.get(star).text().replace("%", ""));
+		return result;
 	}
 
 	public static void main(String[] args) {
@@ -278,4 +307,10 @@ public class HtmlUtil {
 		Matcher m = p.matcher(s);
 		return Integer.valueOf(m.replaceAll("").trim());
 	}
+//	private static double getDouble(String s) {
+//		String regex = "([0-9]+\\.[0-9]+)";
+//		Pattern p = Pattern.compile(regex);
+//		Matcher m = p.matcher(s);
+//		return Double.valueOf(m.group(1));
+//	}
 }

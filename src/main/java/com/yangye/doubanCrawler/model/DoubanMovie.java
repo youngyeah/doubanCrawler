@@ -12,7 +12,7 @@ public class DoubanMovie {
 	private String location;// 制片国家/地区
 	private int language;// 语言
 	private int movieTime;// 片长
-	private int score;// 评分
+	private double score;// 评分
 	private int scoreNum;// 评价人数
 	private int seenNum;// 已看人数
 	private int wantNum;// 想看人数
@@ -98,11 +98,11 @@ public class DoubanMovie {
 		this.movieTime = movieTime;
 	}
 
-	public int getScore() {
+	public double getScore() {
 		return score;
 	}
 
-	public void setScore(int score) {
+	public void setScore(double score) {
 		this.score = score;
 	}
 

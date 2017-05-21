@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.yangye.doubanCrawler.model.DoubanActor;
 import com.yangye.doubanCrawler.model.DoubanComment;
+import com.yangye.doubanCrawler.model.DoubanMovie;
 import com.yangye.doubanCrawler.utils.HtmlUtil;
 
 import cn.edu.hfut.dmic.webcollector.model.CrawlDatums;
@@ -17,7 +18,7 @@ public class DoubanCrawler extends BreadthCrawler{
 	}
 
 	public void visit(Page page, CrawlDatums next) {
-		if(page.matchUrl("https://movie.douban.com/subject/[0-9]+/\\?from=subject-page")) {
+		if(page.matchUrl("https://movie.douban.com/subject/[0-9]+/")) {
 			int movieId = HtmlUtil.getMovieId(page);
 			String movieName = HtmlUtil.getMovieName(page);
 			int year = HtmlUtil.getMovieYear(page);
@@ -32,6 +33,33 @@ public class DoubanCrawler extends BreadthCrawler{
 			int wantNum = HtmlUtil.getWantNum(page);
 			int shortCommentNum = HtmlUtil.getShortCommentNum(page);
 			List<DoubanComment> comments = HtmlUtil.getComments(page, movieId);
+			int longCommentNum = HtmlUtil.getLongCommentNum(page);
+			double fiveStar = HtmlUtil.getStar(page, 0);
+			double fourStar = HtmlUtil.getStar(page, 1);
+			double threeStar = HtmlUtil.getStar(page, 2);
+			double twoStar = HtmlUtil.getStar(page, 3);
+			double oneStar = HtmlUtil.getStar(page, 4);
+			DoubanMovie movie = new DoubanMovie();
+			movie.setMovieId(movieId);
+			movie.setMovieName(movieName);
+			movie.setYear(year);
+			movie.setOnTime(onTime);
+			movie.setMovieActors(actors);
+			movie.setMovieType(movieType);
+			movie.setLocation(location);
+			movie.setMovieTime(movieTime);
+			movie.setScore(score);
+			movie.setScoreNum(scoreNum);
+			movie.setSeenNum(seenNum);
+			movie.setWantNum(wantNum);
+			movie.setComments(comments);
+			movie.setShortCommentNum(shortCommentNum);
+			movie.setLongCommentNum(longCommentNum);
+			movie.setOneStar(oneStar);
+			movie.setTwoStar(twoStar);
+			movie.setThreeStar(threeStar);
+			movie.setFourStar(fourStar);
+			movie.setFiveStar(fiveStar);
 			System.out.println("电影id：" + movieId);
 			System.out.println("电影名称：" + movieName);
 			System.out.println("年份：" + year);
@@ -46,26 +74,27 @@ public class DoubanCrawler extends BreadthCrawler{
 			System.out.println("想看人数：" + wantNum);
 			System.out.println("短评人数：" + shortCommentNum);
 			System.out.println("评论详情：" + comments);
+			System.out.println("影评数量：" + longCommentNum);
+			System.out.println("5星：" + fiveStar);
+			System.out.println("4星：" + fourStar);
+			System.out.println("3星：" + threeStar);
+			System.out.println("2星：" + twoStar);
+			System.out.println("1星：" + oneStar);
 		}
-	
-		
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 	public static void main(String[] args) {
 		DoubanCrawler crawler = new DoubanCrawler("crawler", true);
 		
-		crawler.setThreads(2);
-		crawler.addSeed("https://movie.douban.com/subject/1291546/?from=subject-page");
-		crawler.addRegex("https://movie.douban.com/subject/[0-9]+/\\?from=subject-page");
+		crawler.setThreads(1);
+		crawler.setExecuteInterval(500);
+//		crawler.addSeed("https://movie.douban.com/subject/1291546/?from=subject-page");
+		crawler.addSeed("https://movie.douban.com/tag/");
+		crawler.addRegex("https://movie.douban.com/tag/[0-9]+");
+		crawler.addRegex("https://movie.douban.com/tag/[0-9]+\\?start=[0-9]+&type=T");
+		crawler.addRegex("https://movie.douban.com/subject/[0-9]+/");
 		try {
-			crawler.start(1);
+			crawler.start(4);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

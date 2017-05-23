@@ -42,14 +42,14 @@ public class HtmlUtil {
 	 * @return
 	 */
 	public static int getMovieId(Page page) {// https://movie.douban.com/subject/1292052/?from=subject-page
-		String regex = "https://movie.douban.com/subject/([0-9]+)/\\?from=subject-page";
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(page.getUrl());
-		String movieIdStr = "";
-		if (m.matches()) {
-			movieIdStr = m.group(1);
-		}
-		return getInt(movieIdStr);
+//		String regex = "https://movie.douban.com/subject/([0-9]+)/\\?from=subject-page";
+//		Pattern p = Pattern.compile(regex);
+//		Matcher m = p.matcher(page.getUrl());
+//		String movieIdStr = "";
+//		if (m.matches()) {
+//			movieIdStr = m.group(1);
+//		}
+		return getInt(page.getUrl());
 	}
 
 	/**

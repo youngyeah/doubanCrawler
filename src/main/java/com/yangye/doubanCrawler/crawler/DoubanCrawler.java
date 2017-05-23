@@ -87,7 +87,7 @@ public class DoubanCrawler extends BreadthCrawler{
 		DoubanCrawler crawler = new DoubanCrawler("crawler", true);
 		
 		crawler.setThreads(1);
-		crawler.setExecuteInterval(500);
+		crawler.setExecuteInterval(1000);
 //		crawler.addSeed("https://movie.douban.com/subject/1291546/?from=subject-page");
 		crawler.addSeed("https://movie.douban.com/tag/");
 		crawler.addRegex("https://movie.douban.com/tag/[0-9]+");

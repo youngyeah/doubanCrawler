@@ -42,13 +42,6 @@ public class HtmlUtil {
 	 * @return
 	 */
 	public static int getMovieId(Page page) {// https://movie.douban.com/subject/1292052/?from=subject-page
-//		String regex = "https://movie.douban.com/subject/([0-9]+)/\\?from=subject-page";
-//		Pattern p = Pattern.compile(regex);
-//		Matcher m = p.matcher(page.getUrl());
-//		String movieIdStr = "";
-//		if (m.matches()) {
-//			movieIdStr = m.group(1);
-//		}
 		return getInt(page.getUrl());
 	}
 
@@ -73,11 +66,14 @@ public class HtmlUtil {
 	 * @return
 	 */
 	public static List<DoubanActor> getActors(Page page, int movieId) {
-		Elements elements = page.select("#info .actor .attrs a");
+		Elements elements = page.select("#info", 0).getElementsByAttributeValueMatching("rel", "v:starring");
 		List<DoubanActor> actors = new ArrayList<DoubanActor>();
 		for (Element element : elements) {
+			if(actors.size() >= 4) {
+				break;
+			}
 			DoubanActor doubanActor = new DoubanActor();
-			int actorId = getInt(element.attr("href").replaceAll("/", "").substring(10));
+			int actorId = getInt(element.attr("href"));
 			String actorName = element.text();
 			int movieId_actor = movieId;
 			doubanActor.setActorId(actorId);
@@ -134,8 +130,8 @@ public class HtmlUtil {
 	 * @return
 	 */
 	public static int getOnTime(Page page) {
-		Element element = page.select("#info .pl", 6);
-		String onTimeStr = element.nextElementSibling().text();
+		Element element = page.select("#info", 0).getElementsByAttributeValueMatching("property", "v:initialReleaseDate").first();
+		String onTimeStr = element.text();
 		String onTime = onTimeStr.substring(0, 10);
 		return DateUtil.getUnixTime(onTime);
 		
@@ -148,9 +144,12 @@ public class HtmlUtil {
 	 * @return
 	 */
 	public static int getMovieTime(Page page) {
-		Element element = page.select("#info .pl", 7).nextElementSibling();
-		String movieTimeStr = element.text();
-		return getInt(movieTimeStr);
+		Element element = page.select("#info", 0).getElementsByAttributeValueMatching("property", "v:runtime").first();
+		if(element != null) {
+			String movieTimeStr = element.attr("content");
+			return getInt(movieTimeStr);
+		}
+		return 0;
 	}
 	
 	/**
@@ -283,15 +282,6 @@ public class HtmlUtil {
 		return s.equals("") ? 0 : Integer.valueOf(s);
 	}
 
-//	private static int getInt(String s) {
-//		int result = 0;
-//		try {
-//			result = Integer.valueOf(s);
-//		} catch (NumberFormatException e) {
-//		}
-//		return result;
-//	}
-	
 	private static double getDouble(String s) {
 		double result = 0;
 		try {
@@ -305,12 +295,13 @@ public class HtmlUtil {
 		String regex = "[^0-9]";
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(s);
-		return Integer.valueOf(m.replaceAll("").trim());
+		String resultString = m.replaceAll("").trim();
+		int result = 0;
+		try {
+			result = Integer.valueOf(resultString);
+		} catch (NumberFormatException e) {
+		}
+		return result;
 	}
-//	private static double getDouble(String s) {
-//		String regex = "([0-9]+\\.[0-9]+)";
-//		Pattern p = Pattern.compile(regex);
-//		Matcher m = p.matcher(s);
-//		return Double.valueOf(m.group(1));
-//	}
+	
 }

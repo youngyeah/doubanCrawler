@@ -64,8 +64,8 @@ public class DoubanCrawler extends BreadthCrawler{
 			System.out.println("电影名称：" + movieName);
 			System.out.println("年份：" + year);
 			System.out.println("演员表：" + actors);
-			System.out.println("类型：" + location);
-			System.out.println("国家/地区：" + movieType);
+			System.out.println("类型：" + movieType);
+			System.out.println("国家/地区：" + location);
 			System.out.println("上映时间：" + onTime);
 			System.out.println("时长：" + movieTime);
 			System.out.println("评分：" + score);
@@ -87,14 +87,14 @@ public class DoubanCrawler extends BreadthCrawler{
 		DoubanCrawler crawler = new DoubanCrawler("crawler", true);
 		
 		crawler.setThreads(1);
-		crawler.setExecuteInterval(1000);
-//		crawler.addSeed("https://movie.douban.com/subject/1291546/?from=subject-page");
-		crawler.addSeed("https://movie.douban.com/tag/");
-		crawler.addRegex("https://movie.douban.com/tag/[0-9]+");
-		crawler.addRegex("https://movie.douban.com/tag/[0-9]+\\?start=[0-9]+&type=T");
-		crawler.addRegex("https://movie.douban.com/subject/[0-9]+/");
+		crawler.setExecuteInterval(3000);
+		crawler.addSeed("https://movie.douban.com/subject/10491666/");
+//		crawler.addSeed("https://movie.douban.com/tag/");
+//		crawler.addRegex("https://movie.douban.com/tag/[0-9]+");
+//		crawler.addRegex("https://movie.douban.com/tag/[0-9]+\\?start=[0-9]+&type=T");
+//		crawler.addRegex("https://movie.douban.com/subject/[0-9]+/");
 		try {
-			crawler.start(4);
+			crawler.start(1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
